@@ -98,6 +98,33 @@ const currentWeather = ({ lat, lon }) => {
   }) // TODO: error handling?
 }
 
+/**
+ * Looks up the forecasted weather on the OpenWeather API for a given
+ * position and time.
+ * @param {number|string} lat
+ * @param {number|string} lon
+ * @param {number|string} time amount hours to forecast
+ * @return {Promise<*>} the forecasted weather in the location
+ */
+const forecastWeather = async ({ lat, lon, time }) => {
+  let exclude="current,minutely,alerts,daily"
+  let metric="metric"
+  
+  const weather_hour = await get(`${BASE_URL}/data/2.5/onecall`, {
+    appid: API_KEY,
+    lat,
+    lon,
+    exclude: exclude,
+    units: metric,
+  }) 
+  
+  // TODO: error handling?
+  console.log(time)
+  console.log(weather_hour.hourly[time-1])
+  
+  return weather_hour
+}
+
 export {
-  currentWeather
+  currentWeather, forecastWeather
 }
