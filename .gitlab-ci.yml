@@ -1,0 +1,10 @@
+# deploy dist directory to Gitlab pages
+pages:
+  stage: deploy
+  script:
+    - echo "noop"
+  artifacts:
+    paths:
+      - dist
+  only:
+    - main
