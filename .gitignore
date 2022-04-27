@@ -2,3 +2,5 @@
 .idea
 *.iml
 
+# deps
+node_modules
