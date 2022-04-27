@@ -36,10 +36,11 @@ const handleRes = (res) => {
 }
 
 /**
- * Looks up the current weather on the OpenWeather API for a given city.
+ * Looks up the current weather on the OpenWeather API for a given
+ * position.
  * @example
  * // returns a promise representing the API response
- * currentWeather('Stockholm')
+ * currentWeather({ lat: 59.3326, lon: 18.0649 })
  * @example
  * // example response
  * {
@@ -85,13 +86,15 @@ const handleRes = (res) => {
  *   "name": "Stockholm",
  *   "cod": 200
  * }
- * @param {string} query
+ * @param {number|string} lat
+ * @param {number|string} lon
  * @return {Promise<*>}
  */
-const currentWeather = (query) => {
+const currentWeather = ({ lat, lon }) => {
   return get(`${BASE_URL}/data/2.5/weather`, {
     appid: API_KEY,
-    q: query
+    lat,
+    lon
   }) // TODO: error handling?
 }
 
