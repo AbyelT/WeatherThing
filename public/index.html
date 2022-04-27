@@ -3,71 +3,27 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Test</title>
+  <title>Weather thing</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
 
+  <main class="main">
 
-  <form id="form">
-    <input type="hidden" id="coordinates" value="">
-    <input type="text" id="input" placeholder="Enter city" value="">
-    <input type="button" id="button" value="Set">
-  </form>
+    <form id="form">
+      <input type="hidden" id="coordinates" value="">
+      <input type="text" id="input" placeholder="Enter city name" value="">
+      <input type="button" id="button" value="Set">
+    </form>
 
-  <div id="res">
-    <pre></pre>
-  </div>
+    <div id="res">
+      <pre></pre>
+    </div>
 
-  <script type="module">
-    // TODO: move JS to separate modules
-
-    const BASE_URL = 'https://api.openweathermap.org'
-    const API_KEY = '7e2389469a7fba48ac9018ae82d03f6f'
-
-    const debounce = (cb, interval) => {
-      let timeout
-      return debounced = (...args) => {
-        clearTimeout(timeout)
-        timeout = setTimeout(() => {
-          timeout = null
-          cb(...args)
-        }, interval)
-      }
-    }
-
-    const getGeo = (query) => {
-      return fetch(`${BASE_URL}/geo/1.0/direct?q=${query}&limit=5&appid=${API_KEY}`)
-              .then(res => res.json()) // TODO: error handling
-    }
-
-    const getWeather = (query) => {
-      return fetch(`${BASE_URL}/data/2.5/weather?q=${query}&appid=${API_KEY}`)
-              .then(res => res.json()) // TODO: error handling
-    }
-
-    document.body.onload = () => {
-      const button = document.getElementById('button')
-      const input = document.getElementById('input')
-      const pre = document.querySelector('pre')
-
-      /*
-      input.addEventListener('input', debounce(async () => {
-        const geo = await getGeo(input.value)
-        // TODO: implement autocomplete (see geo API)
-      }, 500))
-      */
-
-      button.addEventListener('click', async () => {
-        // TODO: implement
-        const res = await getWeather(input.value)
-        pre.innerText = JSON.stringify(res, null, 2)
-      })
-    }
-
-  </script>
+  </main>
 
   <script type="module" src="js/app.js"></script>
 
