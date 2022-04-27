@@ -4,8 +4,6 @@ main {
     margin: auto;
 } /* see https://gist.github.com/JoeyBurzynski/617fb6201335779f8424ad9528b72c41 */
 
-
-/* TODO: looks like ***, fix this */
 .suggestions {
     position: absolute;
     background-color: white;
