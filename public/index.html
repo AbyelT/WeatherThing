@@ -15,12 +15,14 @@
 
   <main class="main">
 
-    <form id="form">
+    <form id="form" autocomplete="off">
       <input type="button" id="gps" value="&#x1F4CD;">
       <input type="hidden" id="lat" value="0">
       <input type="hidden" id="lon" value="0">
-      <input type="text" id="input" placeholder="Enter city name" value="">
-      <input type="button" id="button" value="Set">
+      <input autocomplete="off" type="text" id="input" placeholder="Search place">
+      <div class="suggestions">
+        <ul></ul>
+      </div>
     </form>
 
     <div id="res">
