@@ -1,4 +1,4 @@
-# deploy dist directory to Gitlab pages
+# deploy public directory to Gitlab pages
 
 image: busybox
 
@@ -8,6 +8,6 @@ pages:
     - echo "The site will be deployed to $CI_PAGES_URL"
   artifacts:
     paths:
-      - dist
+      - public
   only:
     - main

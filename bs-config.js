@@ -15,12 +15,12 @@
 module.exports = {
     "ui": false,
     "files": [
-      "dist/**/*"
+      "public/**/*"
     ],
     "watchEvents": [
       "change",
       "add"
     ],
     "watch": true,
-    "server": "./dist",
+    "server": "./public",
 };
