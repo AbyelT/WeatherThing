@@ -8,5 +8,4 @@
 
 * Clone the repository
 * Run `npm install`
-* Run `npm run serve` to start a static dev server
-
+* Run `npm start` to run a static dev server (serves files under `./dist`)

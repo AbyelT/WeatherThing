@@ -3,7 +3,7 @@
   "description": "",
   "version": "0",
   "scripts": {
-    "serve": "browser-sync start --config bs-config.js"
+    "start": "browser-sync start --config bs-config.js"
   },
   "standard": {
 
