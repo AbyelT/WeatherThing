@@ -15,16 +15,17 @@
 
   <main class="main">
 
-    <form id="form">
+    <form id="form" autocomplete="off" onsubmit="return false">
       <input type="button" id="gps" value="&#x1F4CD;">
       <input type="hidden" id="lat" value="0">
       <input type="hidden" id="lon" value="0">
-      <input type="text" id="input" placeholder="Enter city name" value="">
-      <input type="button" id="button" value="Set">
+      <input autocomplete="off" type="text" id="input" placeholder="Search place">
+      <div class="suggestions">
+        <ul></ul>
+      </div>
       <input type="range" id="time" min="0" max="24" value="0" oninput="num.value = this.value">
       <p>Hours to forecast:<output id="num">0</output></p>
     </form>
-    
 
     <div id="res">
       <pre></pre>
