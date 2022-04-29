@@ -4,3 +4,29 @@ main {
     margin: auto;
 } /* see https://gist.github.com/JoeyBurzynski/617fb6201335779f8424ad9528b72c41 */
 
+.suggestions {
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.suggestions ul {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.suggestions ul.has-suggestions {
+    display: block;
+}
+
+.suggestions ul li {
+    padding: .2rem;
+}
+
+.suggestions ul li:hover {
+    background-color: aliceblue;
+}
+
+

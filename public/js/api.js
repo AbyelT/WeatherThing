@@ -2,8 +2,13 @@
  * API utilities.
  */
 
-const BASE_URL = 'https://api.openweathermap.org'
-const API_KEY = '7e2389469a7fba48ac9018ae82d03f6f'
+// OpenWeather API
+const OW_API_URL = 'https://api.openweathermap.org'
+const OW_API_KEY = '7e2389469a7fba48ac9018ae82d03f6f'
+
+// Geoapify API
+const GA_API_URL = 'https://api.geoapify.com'
+const GA_API_KEY = '61cdc978b1ed40c39956b5bfa1aea0af'
 
 /**
  * Performs a GET on a given endpoint and returns a promise
@@ -92,8 +97,8 @@ const currentWeather = async ({ lat, lon, time }) => {
   } */
 
   //fetch
-  const weather = await get(`${BASE_URL}/data/2.5/onecall`, {
-    appid: API_KEY,
+  const weather = await get(`${OW_API_KEY}/data/2.5/onecall`, {
+    appid: OW_API_KEY,
     lat,
     lon,
     exclude: exclude,
@@ -115,6 +120,37 @@ const currentWeather = async ({ lat, lon, time }) => {
   }
 }
 
+/**
+ * Looks up a search term in the Geoapify API and returns a promise
+ * representing possible matches.
+ * @example
+ * // returns a promise representing the API response
+ * autocomplete('Stock')
+ * @example
+ * // example response (only relevant fields)
+ * [
+ *   {
+ *     ...
+ *     "lon": 23.3967712,
+ *     "lat": 53.6486022,
+ *     "formatted": "Stock, Sokółka County, Poland",
+ *     "city": "Stock",
+ *     "country": "Poland"
+ *   },
+ *   ...
+ * ]
+ * @param {string} text
+ * @return {Promise<[*]>}
+ */
+const autocomplete = (text) => {
+  return get(`${GA_API_URL}/v1/geocode/autocomplete`, {
+    apiKey: GA_API_KEY,
+    text
+  }).then(({ features }) => {
+    return features.map(({ properties }) => properties)
+  })
+}
+
 export {
-  currentWeather
+  currentWeather, autocomplete
 }

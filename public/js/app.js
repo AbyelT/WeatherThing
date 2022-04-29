@@ -2,7 +2,8 @@
  * Main app logic.
  */
 
-import { currentWeather } from './api.js'
+
+import { currentWeather, autocomplete } from './api.js'
 import { debounce } from './util.js'
 
 /**
@@ -26,26 +27,50 @@ const updateWeather = async () => {
  * @return {Promise<void>}
  */
 document.body.onload = async () => {
-  const button = document.getElementById('button')
   const input = document.getElementById('input')
+  const suggestions = document.querySelector('.suggestions ul')
+  const time = document.getElementById('time')
 
-  /*
-  input.addEventListener('input', debounce(async () => {
-    // TODO: implement autocomplete (see geo API or alternative)
-  }, 500))
-  */
+  /**
+   * Looks up a term in the autocomplete API and populates the
+   * places "dropdown" from the autocomplete API response.
+   * @return {Promise<void>}
+   */
+  const search = async () => {
+    const text = input.value
+    let results = []
+    if (text.length > 0) {
+      results = await autocomplete(text)
+    }
+    suggestions.innerHTML = ''
+    if (results.length > 0) {
+      results.map(({ formatted, lat, lon }) => {
+        suggestions.innerHTML += `<li data-lat="${lat}" data-lon="${lon}">${formatted}</li>`
+      })
+      suggestions.classList.add('has-suggestions')
+    } else {
+      suggestions.classList.remove('has-suggestions')
+    }
+  }
 
-  // TODO: set position (lat/lon) in form through autocomplete feature
+  // add input change event listener
+  input.addEventListener('keyup', debounce(search, 250))
 
-  // TODO: set time in form in some way
-  //  - depending on time (now vs. forecast) we have to perform different calls!
+  // add suggestion selection event listener
+  suggestions.addEventListener('click', (ev) => {
+    input.value = ev.target.innerHTML
+    document.getElementById('lat').value = ev.target.dataset.lat
+    document.getElementById('lon').value = ev.target.dataset.lon
+    input.focus()
+    suggestions.innerHTML = ''
+    suggestions.classList.remove('has-suggestion')
+    updateWeather()
+  })
 
-  // TODO: remove this (also button, form will never be submitted, since we just
-  //  fetch on change (missing listeners!):
-  //  - click on GPS button
-  //  - change city (select from autocomplete)
-  // add event listener for setting city
-  button.addEventListener('click', updateWeather)
+  // add event listener for time selection/change
+  time.addEventListener('input', async () => {
+    await updateWeather()
+  })
 
   // add event listener for GPS button (if available)
   if ('geolocation' in navigator) {
