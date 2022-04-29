@@ -36,98 +36,85 @@ const handleRes = (res) => {
 }
 
 /**
- * Looks up the current weather on the OpenWeather API for a given
- * position.
+ * Looks up the current or forecasted weather on the OpenWeather API for a given
+ * position. If the given time {time} is higher than zero then the 
+ * the forecasted weather is returned, else the current weather is given
  * @example
  * // returns a promise representing the API response
- * currentWeather({ lat: 59.3326, lon: 18.0649 })
+ * currentWeather({ lat: 59.3326, lon: 18.0649, time: 0 })
  * @example
  * // example response
  * {
- *   "coord": {
- *     "lon": 18.0649,
- *     "lat": 59.3326
- *   },
- *   "weather": [
- *     {
- *       "id": 800,
- *       "main": "Clear",
- *       "description": "clear sky",
- *       "icon": "01d"
- *     }
- *   ],
- *   "base": "stations",
- *   "main": {
- *     "temp": 280.74,
- *     "feels_like": 278.41,
- *     "temp_min": 278.63,
- *     "temp_max": 281.51,
- *     "pressure": 1026,
- *     "humidity": 45
- *   },
- *   "visibility": 10000,
- *   "wind": {
- *     "speed": 3.6,
- *     "deg": 290
- *   },
- *   "clouds": {
- *     "all": 0
- *   },
- *   "dt": 1651053347,
- *   "sys": {
- *     "type": 1,
- *     "id": 1788,
- *     "country": "SE",
- *     "sunrise": 1651028396,
- *     "sunset": 1651084236
- *   },
- *   "timezone": 7200,
- *   "id": 2673730,
- *   "name": "Stockholm",
- *   "cod": 200
- * }
- * @param {number|string} lat
- * @param {number|string} lon
- * @return {Promise<*>}
- */
-const currentWeather = ({ lat, lon }) => {
-  return get(`${BASE_URL}/data/2.5/weather`, {
-    appid: API_KEY,
-    lat,
-    lon
-  }) // TODO: error handling?
+  "lat": 0,
+  "lon": 0,
+  "timezone": "Etc/GMT",
+  "timezone_offset": 0,
+  "current": {
+    "dt": 1651218396,
+    "sunrise": 1651211629,
+    "sunset": 1651255241,
+    "temp": 27.35,
+    "feels_like": 29.87,
+    "pressure": 1012,
+    "humidity": 74,
+    "dew_point": 22.31,
+    "uvi": 1.04,
+    "clouds": 100,
+    "visibility": 10000,
+    "wind_speed": 4.71,
+    "wind_deg": 160,
+    "wind_gust": 4.4,
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ]
+  },
+  "time": "Fri Apr 29 2022 09:46:36 GMT+0200 (Central European Summer Time)"
 }
-
-/**
- * Looks up the forecasted weather on the OpenWeather API for a given
- * position and time.
  * @param {number|string} lat
  * @param {number|string} lon
  * @param {number|string} time amount hours to forecast
- * @return {Promise<*>} the forecasted weather in the location
+ * @return {Promise<*>} the current or forecasted weather
  */
-const forecastWeather = async ({ lat, lon, time }) => {
-  let exclude="minutely,alerts,daily"
+const currentWeather = async ({ lat, lon, time }) => {
   let metric="metric"
-  
-  const weather_data = await get(`${BASE_URL}/data/2.5/onecall`, {
+  let exclude="minutely,alerts,daily"
+
+  // check if user wants current or forecast weather
+  /* if(time != 0) {
+    exclude="current,minutely,alerts,daily"
+  } else {
+    exclude="hourly,minutely,alerts,daily"
+  } */
+
+  //fetch
+  const weather = await get(`${BASE_URL}/data/2.5/onecall`, {
     appid: API_KEY,
     lat,
     lon,
     exclude: exclude,
     units: metric,
-  }) 
-  
-  // TODO: get the correct hour, the forecast starts at 12:00 of the current day
-  
-  let requestedHour = weather_data.hourly[time-1]
-  let date = new Date(requestedHour.dt*1000-weather_data.timezone_offset*1000)
-  requestedHour.time = date.toString();
+  }) // TODO: error handling?
 
-   // TODO: error handling?
-  return requestedHour
+  // if time > 0, convert to hourly forecast. 
+  // else convert to current time
+  if(time > 0) {
+    delete weather.current
+    weather.hourly = weather.hourly[time-1]
+    weather.time = new Date(weather.hourly.dt*1000 + weather.timezone_offset*1000).toString()
+    return weather
+  }
+  else {
+    delete weather.hourly
+    weather.time = new Date(weather.current.dt*1000).toString();      // dont need +weather.timezone_offset*1000
+    return weather
+  }
 }
 
 export {
-  currentWeather, forecastWeather
+  currentWeather
 }

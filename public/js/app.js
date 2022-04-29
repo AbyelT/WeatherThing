@@ -2,7 +2,7 @@
  * Main app logic.
  */
 
-import { currentWeather, forecastWeather } from './api.js'
+import { currentWeather } from './api.js'
 import { debounce } from './util.js'
 
 /**
@@ -14,15 +14,7 @@ const updateWeather = async () => {
   const lon = document.getElementById('lon').value
   const time = document.getElementById('time').value
 
-  // TODO: switch on time (different API calls)
-  
-  // If time is zero then call the current API, else use the forecast API
-  let weather
-  if(time == 0) {
-    weather = await currentWeather({ lat, lon })
-  } else {
-    weather = await forecastWeather({ lat, lon, time })
-  }
+  const weather = await currentWeather({ lat, lon, time })
 
   // TODO: presentation
   const pre = document.querySelector('pre')
