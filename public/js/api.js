@@ -97,7 +97,7 @@ const currentWeather = async ({ lat, lon, time }) => {
   } */
 
   //fetch
-  const weather = await get(`${OW_API_KEY}/data/2.5/onecall`, {
+  const weather = await get(`${OW_API_URL}/data/2.5/onecall`, {
     appid: OW_API_KEY,
     lat,
     lon,
