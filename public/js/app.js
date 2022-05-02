@@ -17,6 +17,7 @@ const updateWeather = async () => {
   const weather = await currentWeather(lat, lon, time, unit)
 
   const pre = document.querySelector('pre')
+  //TODO: create a structure for data, then fix format
   pre.innerText = JSON.stringify(weather, null, 2)
 }
 

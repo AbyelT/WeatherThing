@@ -1,18 +1,18 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
 
-header {
-    padding: 10px 0px;
+.content {
+    padding: 30px 0px;
+    margin: 0px !important;
     text-align: center;
     background: #43CC02;
-    font-size: 18px;
     font-family: 'Inter', sans-serif;
-    color: white;
     font-style: normal;
     font-weight: 400;
+    color: white;
  }
 
-
 main {
-    max-width: 40rem;
+    max-width: 44rem;
     padding: 2rem;
     margin: auto;
 } /* see https://gist.github.com/JoeyBurzynski/617fb6201335779f8424ad9528b72c41 */
@@ -22,6 +22,7 @@ body {
 }
 
 #form {
+    margin: 40px 0;
     background: #43CC02;
     border: 2px solid rgb(130, 130, 130);
     border-radius: 5px;
@@ -44,7 +45,7 @@ body {
     height: auto;
 }
 
- 
+/*the div of hour forecast slide */
 #hourslide-div {
     flex-flow: column;
     display: flex;
@@ -61,6 +62,7 @@ p {
     height: auto;
 }
 
+/* suggestions */
 .suggestions {
     position: absolute;
     background-color: white;
@@ -84,4 +86,18 @@ p {
 
 .suggestions ul li:hover {
     background-color: aliceblue;
+}
+
+/* results */
+
+#res {
+    
+    margin: 40px 0;
+    padding: 10px;
+    background-color: lightgreen;
+    border: 2px solid rgb(130, 130, 130);
+    border-radius: 5px;
+
+    font-family: 'Inter', sans-serif;
+
 }
