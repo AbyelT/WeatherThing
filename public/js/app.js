@@ -14,8 +14,9 @@ const updateWeather = async () => {
   const lat = document.getElementById('lat').value
   const lon = document.getElementById('lon').value
   const time = document.getElementById('time').value
+  const unit = document.getElementById('units').value
 
-  const weather = await currentWeather({ lat, lon, time })
+  const weather = await currentWeather({ lat, lon, time, unit })
 
   // TODO: presentation
   const pre = document.querySelector('pre')
@@ -28,6 +29,7 @@ const updateWeather = async () => {
  */
 document.body.onload = async () => {
   const input = document.getElementById('input')
+  const units = document.getElementById('units')
   const suggestions = document.querySelector('.suggestions ul')
   const time = document.getElementById('time')
 
@@ -55,6 +57,7 @@ document.body.onload = async () => {
 
   // add input change event listener
   input.addEventListener('keyup', debounce(search, 250))
+  units.addEventListener('keyup', debounce(search, 250))
 
   // add suggestion selection event listener
   suggestions.addEventListener('click', (ev) => {

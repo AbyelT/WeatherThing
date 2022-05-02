@@ -13,6 +13,10 @@
 
 <body>
 
+  <header id="header">
+    <h1>WeatherTrack</h1>
+  </header>
+
   <main class="main">
 
     <form id="form" autocomplete="off" onsubmit="return false">
@@ -23,8 +27,16 @@
       <div class="suggestions">
         <ul></ul>
       </div>
+
       <input type="range" id="time" min="0" max="24" value="0" oninput="num.value = this.value">
       <p>Hours to forecast:<output id="num">0</output></p>
+
+      <label for="units">Metric: </label>
+      <select name="units" id="units">
+        <option default value="metric">Celsius</option>
+        <option value="standard">Farenheight</option>
+        <option value="imperial">Kelvin</option>
+      </select>     
     </form>
 
     <div id="res">

@@ -1,8 +1,24 @@
+header {
+    padding: 10px 0px;
+    text-align: center;
+    background: #43CC02;
+    font-size: 18px;
+    font-family: 'Inter', sans-serif;
+    color: white;
+    font-style: normal;
+    font-weight: 400;
+ }
+
+
 main {
     max-width: 38rem;
     padding: 2rem;
     margin: auto;
 } /* see https://gist.github.com/JoeyBurzynski/617fb6201335779f8424ad9528b72c41 */
+
+body {
+    margin:0;
+}
 
 .suggestions {
     position: absolute;
@@ -28,5 +44,3 @@ main {
 .suggestions ul li:hover {
     background-color: aliceblue;
 }
-
-
