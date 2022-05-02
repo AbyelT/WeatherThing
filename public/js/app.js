@@ -68,9 +68,9 @@ document.body.onload = async () => {
   })
 
   // add event listener for time selection/change
-  time.addEventListener('input', async () => {
+  time.addEventListener('input', debounce(async () => {
     await updateWeather()
-  })
+  }, 500))
 
   // add event listener for GPS button (if available)
   if ('geolocation' in navigator) {
