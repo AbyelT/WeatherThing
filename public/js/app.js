@@ -3,7 +3,7 @@
  */
 
 import { currentWeather, autocomplete } from './api.js'
-import { debounce } from './util.js'
+import { debounce, populate } from './util.js'
 
 /**
  * Fetches the weather for the given time and position and displays it.
@@ -14,11 +14,18 @@ const updateWeather = async () => {
   const lon = document.getElementById('lon').value
   const time = document.getElementById('time').value
   const unit = document.getElementById('units').value
-  const weather = await currentWeather(lat, lon, time, unit)
+  const res = document.getElementById('res')
+  const data = await currentWeather(lat, lon, time, unit)
 
-  const pre = document.querySelector('pre')
+  //a function for taking the data, creating all html elements
+  //and populating them with data
+  const structure = populate(data)
+
   //TODO: create a structure for data, then fix format
-  pre.innerText = JSON.stringify(weather, null, 2)
+  console.log(data)
+  console.log(data.current)
+
+  res.innerHTML = structure
 }
 
 /**

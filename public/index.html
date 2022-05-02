@@ -19,8 +19,8 @@
 
   <main class="main">
 
-    <form id="form" autocomplete="off" onsubmit="return false">
-      <input type="button" id="gps" value="&#x1F4CD;">
+    <form id="form" class="box" autocomplete="off" onsubmit="return false">
+      <input type="button" class="icon is-medium" id="gps" value="&#x1F4CD;">
       <input type="hidden" id="lat" value="0">
       <input type="hidden" id="lon" value="0">
       <input autocomplete="off" type="text" id="input" placeholder="Search place">
@@ -33,7 +33,6 @@
         <input type="range" id="time" min="0" max="24" value="0" oninput="num.value = this.value">
       </div>
       
-
       <label id="unitLabel" for="units">Metric: </label>
       <select name="units" id="units">
         <option default value="metric">Celsius</option>
@@ -42,16 +41,7 @@
       </select>     
     </form>
 
-    <div id="res">
-      <div id="weather-status">
-        <h2>CLEAR SKIES</h2>
-        <img alt="please wait...">
-      </div>
-      <p>Location: <span id="res-location"></span></p>
-      <p>Time: <span id="res-time"></span></p>
-      <p>Temperature: <span id="res-temp"></span></p>
-      <p>Feels like: <span id="res-feelslike"></span></p>
-
+    <div id="res" class="box">
       <pre></pre>
     </div>
 
