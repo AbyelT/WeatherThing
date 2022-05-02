@@ -41,45 +41,80 @@ const handleRes = (res) => {
 }
 
 /**
- * Looks up the current or forecasted weather on the OpenWeather API for a given
- * position. If the given time {time} is higher than zero then the 
- * the forecasted weather is returned, else the current weather is given
- * @example
- * // returns a promise representing the API response
- * currentWeather({ lat: 59.3326, lon: 18.0649, time: 0 })
+ * Extracts the requested weather data part (current or hourly) and transforms it
+ * into a common representation.
  * @example
  * // example response
  * {
-  "lat": 0,
-  "lon": 0,
-  "timezone": "Etc/GMT",
-  "timezone_offset": 0,
-  "current": {
-    "dt": 1651218396,
-    "sunrise": 1651211629,
-    "sunset": 1651255241,
-    "temp": 27.35,
-    "feels_like": 29.87,
-    "pressure": 1012,
-    "humidity": 74,
-    "dew_point": 22.31,
-    "uvi": 1.04,
-    "clouds": 100,
-    "visibility": 10000,
-    "wind_speed": 4.71,
-    "wind_deg": 160,
-    "wind_gust": 4.4,
-    "weather": [
-      {
-        "id": 804,
-        "main": "Clouds",
-        "description": "overcast clouds",
-        "icon": "04d"
-      }
-    ]
-  },
-  "time": "Fri Apr 29 2022 09:46:36 GMT+0200 (Central European Summer Time)"
+ *   "lat": 59.5,
+ *   "lon": 18,
+ *   "timezone": "Europe/Stockholm",
+ *   "timezone_offset": 7200,
+ *   "time": "Mon May 02 2022 21:00:00 GMT+0200 (Central European Summer Time)",
+ *   "data": {
+ *     "dt": 1651510800,
+ *     "temp": 12.19,
+ *     "feels_like": 10.8,
+ *     "pressure": 1005,
+ *     "humidity": 51,
+ *     "dew_point": 2.36,
+ *     "uvi": 0.26,
+ *     "clouds": 54,
+ *     "visibility": 10000,
+ *     "wind_speed": 4.97,
+ *     "wind_deg": 16,
+ *     "wind_gust": 7.01,
+ *     "weather": [
+ *       {
+ *         "id": 803,
+ *         "main": "Clouds",
+ *         "description": "broken clouds",
+ *         "icon": "04d"
+ *       }
+ *     ],
+ *     "sunrise": 1651459565,
+ *     "sunset": 1651517025
+ *   }
+ * }
+ * @param {*} weather
+ * @param {number|string} time
+ * @return {*}
+ */
+const getPartialWeatherData = (weather, time) => {
+  // destructure weather object
+  const { lat, lon, timezone, timezone_offset, current, hourly } = weather
+
+  // build return data object
+  const response = {
+    lat, lon, timezone, timezone_offset
+  }
+
+  // add timestamp
+  const dt = time > 0 ? hourly[time-1].dt : current.dt
+  response.time = new Date(dt * 1000 + timezone_offset * 1000).toString()
+
+  // add weather data
+  if (time > 0) {
+    response.data = hourly[time-1]
+    // add missing sunset/sunrise info
+    response.data.sunrise = current.sunrise
+    response.data.sunset = current.sunset
+  } else {
+    response.data = current
+  }
+
+  // TODO: remove unused fields ("pop", ..)
+  return response
 }
+
+/**
+ * Looks up the current or forecasted weather on the OpenWeather API for a given
+ * position. If the given time {time} is higher than zero then the forecasted
+ * weather is returned, else the current weather is given.
+ * For example response data see {@link getPartialWeatherData}.
+ * @example
+ * // returns a promise representing the API response
+ * currentWeather({ lat: 59.3326, lon: 18.0649, time: 0 })
  * @param {number|string} lat
  * @param {number|string} lon
  * @param {number|string} time amount hours to forecast
@@ -88,13 +123,6 @@ const handleRes = (res) => {
 const currentWeather = async ({ lat, lon, time }) => {
   let metric="metric"
   let exclude="minutely,alerts,daily"
-
-  // check if user wants current or forecast weather
-  /* if(time != 0) {
-    exclude="current,minutely,alerts,daily"
-  } else {
-    exclude="hourly,minutely,alerts,daily"
-  } */
 
   //fetch
   // FIXME: mocking API response to avoid going over usage quota, replace the following with:
@@ -108,19 +136,8 @@ const currentWeather = async ({ lat, lon, time }) => {
     units: metric,
   }) // TODO: error handling?
 
-  // if time > 0, convert to hourly forecast. 
-  // else convert to current time
-  if(time > 0) {
-    delete weather.current
-    weather.hourly = weather.hourly[time-1]
-    weather.time = new Date(weather.hourly.dt*1000 + weather.timezone_offset*1000).toString()
-    return weather
-  }
-  else {
-    delete weather.hourly
-    weather.time = new Date(weather.current.dt*1000).toString();      // dont need +weather.timezone_offset*1000
-    return weather
-  }
+  // extract and return relevant weather data only
+  return getPartialWeatherData(weather, time)
 }
 
 /**
