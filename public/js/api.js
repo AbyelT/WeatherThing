@@ -97,7 +97,10 @@ const currentWeather = async ({ lat, lon, time }) => {
   } */
 
   //fetch
-  const weather = await get(`${OW_API_URL}/data/2.5/onecall`, {
+  // FIXME: mocking API response to avoid going over usage quota, replace the following with:
+  //  `${OW_API_URL}/data/2.5/onecall`
+  const url = `${window.location.href}/js/onecallMockResponse.json`
+  const weather = await get(url, {
     appid: OW_API_KEY,
     lat,
     lon,
