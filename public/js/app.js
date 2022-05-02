@@ -2,7 +2,6 @@
  * Main app logic.
  */
 
-
 import { currentWeather, autocomplete } from './api.js'
 import { debounce } from './util.js'
 
@@ -15,10 +14,8 @@ const updateWeather = async () => {
   const lon = document.getElementById('lon').value
   const time = document.getElementById('time').value
   const unit = document.getElementById('units').value
+  const weather = await currentWeather(lat, lon, time, unit)
 
-  const weather = await currentWeather({ lat, lon, time, unit })
-
-  // TODO: presentation
   const pre = document.querySelector('pre')
   pre.innerText = JSON.stringify(weather, null, 2)
 }
@@ -39,6 +36,8 @@ document.body.onload = async () => {
    * @return {Promise<void>}
    */
   const search = async () => {
+    console.log("hi")
+
     const text = input.value
     let results = []
     if (text.length > 0) {
@@ -57,7 +56,7 @@ document.body.onload = async () => {
 
   // add input change event listener
   input.addEventListener('keyup', debounce(search, 250))
-  units.addEventListener('keyup', debounce(search, 250))
+  units.addEventListener('change', debounce(search, 250))
 
   // add suggestion selection event listener
   suggestions.addEventListener('click', (ev) => {

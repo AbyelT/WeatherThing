@@ -28,10 +28,13 @@
         <ul></ul>
       </div>
 
-      <input type="range" id="time" min="0" max="24" value="0" oninput="num.value = this.value">
-      <p>Hours to forecast:<output id="num">0</output></p>
+      <div id="hourslide-div">
+        <p>Hours to forecast: <output id="num">0</output></p>
+        <input type="range" id="time" min="0" max="24" value="0" oninput="num.value = this.value">
+      </div>
+      
 
-      <label for="units">Metric: </label>
+      <label id="unitLabel" for="units">Metric: </label>
       <select name="units" id="units">
         <option default value="metric">Celsius</option>
         <option value="standard">Farenheight</option>

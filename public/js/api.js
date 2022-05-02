@@ -83,11 +83,11 @@ const handleRes = (res) => {
  * @param {number|string} lat
  * @param {number|string} lon
  * @param {number|string} time amount hours to forecast
+ * @param {number|string} unit temperature unit
  * @return {Promise<*>} the current or forecasted weather
  */
-const currentWeather = async ({ lat, lon, time, metric }) => {
+const currentWeather = async (lat, lon, time, units) => {
   let exclude="minutely,alerts,daily"
-
   // check if user wants current or forecast weather
   /* if(time != 0) {
     exclude="current,minutely,alerts,daily"
@@ -101,7 +101,7 @@ const currentWeather = async ({ lat, lon, time, metric }) => {
     lat,
     lon,
     exclude: exclude,
-    units: metric,
+    units: units,
   }) // TODO: error handling?
 
   // if time > 0, convert to hourly forecast. 

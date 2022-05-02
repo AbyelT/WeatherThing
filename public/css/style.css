@@ -1,3 +1,4 @@
+
 header {
     padding: 10px 0px;
     text-align: center;
@@ -11,13 +12,53 @@ header {
 
 
 main {
-    max-width: 38rem;
+    max-width: 40rem;
     padding: 2rem;
     margin: auto;
 } /* see https://gist.github.com/JoeyBurzynski/617fb6201335779f8424ad9528b72c41 */
 
 body {
     margin:0;
+}
+
+#form {
+    background: #43CC02;
+    border: 2px solid rgb(130, 130, 130);
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+
+    padding: 10px;
+    display: flex;
+    align-content: center;
+}
+
+/* spacing for all elements in form */
+#form > * {
+    margin: 0px 10px;
+    height: 28px;
+}
+
+/* the gps button */
+#gps {
+    width: 32px;
+    height: auto;
+}
+
+ 
+#hourslide-div {
+    flex-flow: column;
+    display: flex;
+    width: 160px;
+    text-align: center;
+}
+
+p {
+    margin: 0px;
+    width: auto;
+}
+
+#unitLabel {
+    height: auto;
 }
 
 .suggestions {
