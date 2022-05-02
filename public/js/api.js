@@ -4,7 +4,7 @@
 
 // OpenWeather API
 const OW_API_URL = 'https://api.openweathermap.org'
-const OW_API_KEY = '7e2389469a7fba48ac9018ae82d03f6f'
+const OW_API_KEY = '426a798fb8aeadc4112a00879b72a17a'
 
 // Geoapify API
 const GA_API_URL = 'https://api.geoapify.com'
