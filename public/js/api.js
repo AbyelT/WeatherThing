@@ -50,26 +50,25 @@ const handleRes = (res) => {
  *   "lon": 18,
  *   "timezone": "Europe/Stockholm",
  *   "timezone_offset": 7200,
- *   "time": "Mon May 02 2022 21:00:00 GMT+0200 (Central European Summer Time)",
+ *   "timestamp": "Tue May 03 2022 00:00:00 GMT+0200 (Central European Summer Time)",
  *   "data": {
- *     "dt": 1651510800,
- *     "temp": 12.19,
- *     "feels_like": 10.8,
- *     "pressure": 1005,
- *     "humidity": 51,
- *     "dew_point": 2.36,
- *     "uvi": 0.26,
- *     "clouds": 54,
+ *     "dt": 1651521600,
+ *     "temp": 6.25,
+ *     "feels_like": 5.34,
+ *     "pressure": 1007,
+ *     "humidity": 83,
+ *     "dew_point": 3.66,
+ *     "uvi": 0,
+ *     "clouds": 100,
  *     "visibility": 10000,
- *     "wind_speed": 4.97,
- *     "wind_deg": 16,
- *     "wind_gust": 7.01,
+ *     "wind_speed": 1.53,
+ *     "wind_deg": 282,
  *     "weather": [
  *       {
- *         "id": 803,
+ *         "id": 804,
  *         "main": "Clouds",
- *         "description": "broken clouds",
- *         "icon": "04d"
+ *         "description": "overcast clouds",
+ *         "icon": "04n"
  *       }
  *     ],
  *     "sunrise": 1651459565,
@@ -80,31 +79,33 @@ const handleRes = (res) => {
  * @param {number|string} time
  * @return {*}
  */
-const getPartialWeatherData = (weather, time) => {
+const getPartialWeatherData = (complete, time) => {
   // destructure weather object
-  const { lat, lon, timezone, timezone_offset, current, hourly } = weather
+  const { lat, lon, timezone, timezone_offset, current, hourly } = complete
 
-  // build return data object
-  const response = {
-    lat, lon, timezone, timezone_offset
+  // get common data (only needed fields)
+  const {
+    dt, temp, feels_like, pressure, humidity, dew_point, uvi,
+    clouds, visibility, wind_speed, wind_deg, weather
+  } = time > 0 ? hourly[time-1] : current
+
+  // create timestamp
+  const timestamp = new Date(dt * 1000 + timezone_offset * 1000).toString()
+
+  // get sunset/sunrise info
+  const { sunrise, sunset } = current
+
+  // build weather data
+  const data = {
+    dt, temp, feels_like, pressure, humidity, dew_point, uvi,
+    clouds, visibility, wind_speed, wind_deg, weather,
+    sunrise, sunset
   }
 
-  // add timestamp
-  const dt = time > 0 ? hourly[time-1].dt : current.dt
-  response.time = new Date(dt * 1000 + timezone_offset * 1000).toString()
-
-  // add weather data
-  if (time > 0) {
-    response.data = hourly[time-1]
-    // add missing sunset/sunrise info
-    response.data.sunrise = current.sunrise
-    response.data.sunset = current.sunset
-  } else {
-    response.data = current
+  // return data
+  return {
+    lat, lon, timezone, timezone_offset, timestamp, data
   }
-
-  // TODO: remove unused fields ("pop", ..)
-  return response
 }
 
 /**
