@@ -3,7 +3,7 @@
  */
 
 
-import { currentWeather, geocodeAutocomplete } from './api.js'
+import { currentWeather, geocodeAutocomplete, geocodeReverse } from './api.js'
 import { debounce, populate } from './util.js'
 
 /**
@@ -16,11 +16,18 @@ const updateWeather = async () => {
   const time = document.getElementById('time').value
   const unit = document.getElementById('units').value
   const res = document.getElementById('res')
-  const data = await currentWeather(lat, lon, time, unit)
+
+  // find weather for the current (or selected) position
+  const result = await currentWeather(lat, lon, time, unit)
+
+  // find a place for the current (or selected) position
+  const places = await geocodeReverse(lat, lon)
+
+  const formatted = places[0]?.formatted || 'Earth' // default to something if none available
 
   //a function for taking the data, creating all html elements
   //and populating them with data
-  const structure = populate(data)
+  const structure = populate({ result, formatted })
 
   //TODO: create a structure for data, then fix format
   console.log(data)
