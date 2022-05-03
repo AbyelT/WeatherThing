@@ -2,7 +2,6 @@
  * Main app logic.
  */
 
-
 import { currentWeather, geocodeAutocomplete, geocodeReverse } from './api.js'
 import { debounce, populate } from './util.js'
 
@@ -11,6 +10,8 @@ import { debounce, populate } from './util.js'
  * @return {Promise<void>}
  */
 const updateWeather = async () => {
+  document.querySelector('.suggestions ul')
+    .classList.remove('has-suggestions') // just to be sure
   const lat = document.getElementById('lat').value
   const lon = document.getElementById('lon').value
   const time = document.getElementById('time').value
@@ -47,8 +48,6 @@ document.body.onload = async () => {
    * @return {Promise<void>}
    */
   const search = async () => {
-    console.log("hi")
-
     const text = input.value
     let results = []
     if (text.length > 0) {
