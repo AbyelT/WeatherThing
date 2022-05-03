@@ -22,7 +22,7 @@ const debounce = (cb, interval) => {
   }
 }
 
-const populate = (result) => {
+const populate = ({ result, formatted }) => {
   let details = result.data
   let weather = result.data.weather[0]
   let structure = `<div>
@@ -37,7 +37,7 @@ const populate = (result) => {
       <div class="columns" id="data-details">
         <div class="column is-half">
           <div>
-            <p id="location" class="detail" >Location: ${result.timezone}</p>
+            <p id="location" class="detail" >Location: ${formatted}</p>
             <p id="temp" class="detail">Temperature: <span >${details.temp}</p>
             <p id="humidity" class="detail">Humidity: ${details.humidity}</p>
           </div>
