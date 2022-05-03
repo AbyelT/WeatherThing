@@ -2,7 +2,8 @@
  * Main app logic.
  */
 
-import { currentWeather, autocomplete } from './api.js'
+
+import { currentWeather, geocodeAutocomplete } from './api.js'
 import { debounce, populate } from './util.js'
 
 /**
@@ -49,7 +50,7 @@ document.body.onload = async () => {
     const text = input.value
     let results = []
     if (text.length > 0) {
-      results = await autocomplete(text)
+      results = await geocodeAutocomplete(text)
     }
     suggestions.innerHTML = ''
     if (results.length > 0) {

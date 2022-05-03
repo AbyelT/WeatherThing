@@ -163,7 +163,7 @@ const currentWeather = async (lat, lon, time, units) => {
  * @param {string} text
  * @return {Promise<[*]>}
  */
-const autocomplete = (text) => {
+const geocodeAutocomplete = (text) => {
   return get(`${GA_API_URL}/v1/geocode/autocomplete`, {
     apiKey: GA_API_KEY,
     text
@@ -172,6 +172,54 @@ const autocomplete = (text) => {
   })
 }
 
+/**
+ * Looks up a position in the Geoapify API and returns a promise
+ * representing possible places.
+ * @example
+ * // returns a promise representing the API response
+ * geocodeReverse(51.8038354, 16.3172771)
+ * @example
+ * // example response (success, some fields might change depending on the match)
+ * [
+ *   {
+ *     "datasource": { ... },
+ *     "city": "Wschowa",
+ *     "county": "Wschowa County",
+ *     "state": "Lubusz Voivodeship",
+ *     "postcode": "67-400",
+ *     "country": "Poland",
+ *     "country_code": "pl",
+ *     "town": "Wschowa",
+ *     "lon": 16.3172771,
+ *     "lat": 51.8038354,
+ *     "distance": 0,
+ *     "result_type": "postcode",
+ *     "formatted": "67-400 Wschowa, Poland",
+ *     "address_line1": "67-400 Wschowa",
+ *     "address_line2": "Poland",
+ *     "category": "administrative",
+ *     ...
+ *   }
+ * ]
+ * @example
+ * // example response, no places found
+ * []
+ * @param {number|string} lat
+ * @param {number|string} lon
+ * @return {Promise<[*]>}
+ */
+const geocodeReverse = (lat, lon) => {
+  // The API allows to specify some filters on the "type" of the requested address level
+  //  (city, state, street, ..) but it does not seem really consistent. I guess the easy
+  //  way out is just use the "formatted" field of the first result ("na" if no results
+  //  in list).
+  return get(`${GA_API_URL}/v1/geocode/reverse`, {
+    apiKey: GA_API_KEY,
+    format: 'json',
+    lat, lon
+  }).then(({ results }) => results)
+}
+
 export {
-  currentWeather, autocomplete
+  currentWeather, geocodeAutocomplete, geocodeReverse
 }
