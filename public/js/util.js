@@ -4,6 +4,7 @@
 
 const OW_ICON = "https://openweathermap.org/img/wn/"
 const PNG = "@2x.png"
+const UNITS = {metric: "°C", standard: "°F", imperial: "K"}
 
 /**
  * Returns a new function that runs at most once every `interval` ms.
@@ -22,7 +23,7 @@ const debounce = (cb, interval) => {
   }
 }
 
-const populate = ({ result, formatted }) => {
+const populate = ({ result, formatted, unit }) => {
   let details = result.data
   let weather = result.data.weather[0]
   let structure = `<div>
@@ -38,15 +39,15 @@ const populate = ({ result, formatted }) => {
         <div class="column is-half">
           <div>
             <p id="location" class="detail" >Location: ${formatted}</p>
-            <p id="temp" class="detail">Temperature: <span >${details.temp}</p>
-            <p id="humidity" class="detail">Humidity: ${details.humidity}</p>
+            <p id="temp" class="detail" >Temperature: ${details.temp + UNITS[unit]}</p>
+            <p id="humidity" class="detail" >Humidity: ${details.humidity + "%"}</p>
           </div>
         </div>
         <div class="column is-half">
           <div>
-            <p  id="time" class="detail" >Time: ${result.timestamp}</p>
-            <p  id="feelslike" class="detail" >Feels like: ${details.feels_like}</p>
-            <p  id="clouds" class="detail" >Clouds: ${details.clouds}</p>
+            <p  id="time" class="detail"> Time: ${result.timestamp}</p>
+            <p  id="feelslike" class="detail" >Feels like: ${details.feels_like + UNITS[unit]}</p>
+            <p  id="clouds" class="detail"> Clouds: ${details.clouds + "%"}</p>
           </div>
          </div>
       </div>

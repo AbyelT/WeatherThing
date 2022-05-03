@@ -90,7 +90,9 @@ const getPartialWeatherData = (complete, time) => {
   } = time > 0 ? hourly[time-1] : current
 
   // create timestamp
-  const timestamp = new Date(dt * 1000 + timezone_offset * 1000).toString()
+  const date = new Date(dt * 1000 + timezone_offset * 1000)
+  let options = { weekday: 'long', month: 'long', day: 'numeric' };
+  let timestamp = date.toLocaleString('en-GB', options) + ", " + date.toLocaleTimeString('en-GB')
 
   // get sunset/sunrise info
   const { sunrise, sunset } = current
