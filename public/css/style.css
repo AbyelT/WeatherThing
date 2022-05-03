@@ -1,9 +1,67 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
+
+.content {
+    padding: 30px 0px;
+    margin: 0px;
+    text-align: center;
+    background: #43CC02;
+    font-style: normal;
+    font-weight: 400;
+ }
+
 main {
-    max-width: 38rem;
+    max-width: 46rem;
     padding: 2rem;
     margin: auto;
+    font-family: 'Inter', sans-serif;
+    color: white;
 } /* see https://gist.github.com/JoeyBurzynski/617fb6201335779f8424ad9528b72c41 */
 
+body {
+    margin:0;
+}
+
+#form {
+    margin: 30px 0;
+    background: #43CC02;
+    border: 2px solid rgb(130, 130, 130);
+    font-family: inherit;
+    padding: 14px;
+    display: flex;
+    align-content: center;
+}
+
+/* spacing for all elements in form */
+#form > * {
+    margin: 0px 10px;
+    height: 28px;
+}
+
+/* the gps button */
+#gps {
+    width: 32px;
+    height: 32px;
+}
+
+/*the div of hour forecast slide */
+#hourslide-div {
+    flex-flow: column;
+    display: flex;
+    width: 160px;
+    text-align: center;
+}
+
+p {
+    margin: 0px;
+    width: auto;
+}
+
+#unitLabel {
+    margin: 0;
+    height: auto;
+}
+
+/* suggestions */
 .suggestions {
     position: absolute;
     background-color: white;
@@ -29,4 +87,35 @@ main {
     background-color: aliceblue;
 }
 
+/* results */
 
+#res { 
+    background-color: lightgreen !important;
+    border: 2px solid rgb(130, 130, 130);
+}
+
+#status {
+    margin-bottom: 0px !important;
+    background-color: inherit;
+    text-shadow: 5px;
+}
+
+#icon {
+    background-color: lightblue;
+    border: 1px solid rgb(130, 130, 130);
+}
+
+.detail {
+    margin: 20px 0px;
+    font-size: 18px;
+    font-family: inherit;
+    color: inherit;
+}
+
+/*
+margin: 40px 0px;
+    padding: 10px;
+    border-radius: 5px;
+
+    font-family: 'Inter', sans-serif;
+*/

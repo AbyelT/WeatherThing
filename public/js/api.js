@@ -75,7 +75,7 @@ const handleRes = (res) => {
  *     "sunset": 1651517025
  *   }
  * }
- * @param {*} weather
+ * @param {*} complete
  * @param {number|string} time
  * @return {*}
  */
@@ -119,10 +119,10 @@ const getPartialWeatherData = (complete, time) => {
  * @param {number|string} lat
  * @param {number|string} lon
  * @param {number|string} time amount hours to forecast
+ * @param {number|string} unit temperature unit
  * @return {Promise<*>} the current or forecasted weather
  */
-const currentWeather = async ({ lat, lon, time }) => {
-  let metric="metric"
+const currentWeather = async (lat, lon, time, units) => {
   let exclude="minutely,alerts,daily"
 
   //fetch
@@ -134,7 +134,7 @@ const currentWeather = async ({ lat, lon, time }) => {
     lat,
     lon,
     exclude: exclude,
-    units: metric,
+    units: units,
   }) // TODO: error handling?
 
   // extract and return relevant weather data only
