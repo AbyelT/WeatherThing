@@ -28,11 +28,6 @@ const updateWeather = async () => {
   //a function for taking the data, creating all html elements
   //and populating them with data
   const structure = populate({ result, formatted })
-
-  //TODO: create a structure for data, then fix format
-  console.log(data)
-  console.log(data.data)
-
   res.innerHTML = structure
 }
 
