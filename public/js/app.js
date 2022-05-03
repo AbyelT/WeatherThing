@@ -18,14 +18,8 @@ const updateWeather = async () => {
   const res = document.getElementById('res')
   const data = await currentWeather(lat, lon, time, unit)
 
-  //a function for taking the data, creating all html elements
-  //and populating them with data
+  // Create HTML elements and poulate with results
   const structure = populate(data)
-
-  //TODO: create a structure for data, then fix format
-  console.log(data)
-  console.log(data.data)
-
   res.innerHTML = structure
 }
 
