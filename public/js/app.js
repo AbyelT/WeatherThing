@@ -20,7 +20,6 @@ const updateWeather = async () => {
 
   // find weather for the current (or selected) position
   const result = await currentWeather(lat, lon, time, unit)
-
   // find a place for the current (or selected) position
   const places = await geocodeReverse(lat, lon)
 
@@ -28,7 +27,7 @@ const updateWeather = async () => {
 
   //a function for taking the data, creating all html elements
   //and populating them with data
-  const structure = populate({ result, formatted })
+  const structure = populate({ result, formatted, unit })
   res.innerHTML = structure
 }
 
