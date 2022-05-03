@@ -125,11 +125,10 @@ const getPartialWeatherData = (complete, time) => {
 const currentWeather = async (lat, lon, time, units) => {
   let exclude="minutely,alerts,daily"
 
-  //fetch
-  // FIXME: mocking API response to avoid going over usage quota, replace the following with:
-  //  `${OW_API_URL}/data/2.5/onecall`
-  const url = `${window.location.href}/js/onecallMockResponse.json`
-  const weather = await get(url, {
+  // fetch
+  // Use mocked API response to avoid going over usage quota, replace the URL in the request with the following
+  //const url = `${window.location.href}/js/onecallMockResponse.json`
+  const weather = await get(`${OW_API_URL}/data/2.5/onecall`, {
     appid: OW_API_KEY,
     lat,
     lon,
