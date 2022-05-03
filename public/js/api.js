@@ -75,7 +75,7 @@ const handleRes = (res) => {
  *     "sunset": 1651517025
  *   }
  * }
- * @param {*} weather
+ * @param {*} complete
  * @param {number|string} time
  * @return {*}
  */

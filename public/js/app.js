@@ -23,7 +23,7 @@ const updateWeather = async () => {
 
   //TODO: create a structure for data, then fix format
   console.log(data)
-  console.log(data.current)
+  console.log(data.data)
 
   res.innerHTML = structure
 }

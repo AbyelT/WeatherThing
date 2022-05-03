@@ -19,7 +19,7 @@
 
   <main class="main">
 
-    <form id="form" class="box" autocomplete="off" onsubmit="return false">
+    <form id="form" class="columns is-vcentered" autocomplete="off" onsubmit="return false">
       <input type="button" class="icon is-medium" id="gps" value="&#x1F4CD;">
       <input type="hidden" id="lat" value="0">
       <input type="hidden" id="lon" value="0">
@@ -33,7 +33,7 @@
         <input type="range" id="time" min="0" max="24" value="0" oninput="num.value = this.value">
       </div>
       
-      <label id="unitLabel" for="units">Metric: </label>
+      <label id="unitLabel" class="" for="units">Metric: </label>
       <select name="units" id="units">
         <option default value="metric">Celsius</option>
         <option value="standard">Farenheight</option>

@@ -5,16 +5,16 @@
     margin: 0px;
     text-align: center;
     background: #43CC02;
-    font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
-    color: white;
  }
 
 main {
     max-width: 46rem;
     padding: 2rem;
     margin: auto;
+    font-family: 'Inter', sans-serif;
+    color: white;
 } /* see https://gist.github.com/JoeyBurzynski/617fb6201335779f8424ad9528b72c41 */
 
 body {
@@ -22,12 +22,11 @@ body {
 }
 
 #form {
-    margin: 40px 0;
+    margin: 30px 0;
     background: #43CC02;
     border: 2px solid rgb(130, 130, 130);
-    font-family: 'Inter', sans-serif;
-
-    padding: 10px;
+    font-family: inherit;
+    padding: 14px;
     display: flex;
     align-content: center;
 }
@@ -58,6 +57,7 @@ p {
 }
 
 #unitLabel {
+    margin: 0;
     height: auto;
 }
 
@@ -89,12 +89,27 @@ p {
 
 /* results */
 
-#res {
-    
-    background-color: lightgreen;
+#res { 
+    background-color: lightgreen !important;
     border: 2px solid rgb(130, 130, 130);
+}
 
+#status {
+    margin-bottom: 0px !important;
+    background-color: inherit;
+    text-shadow: 5px;
+}
 
+#icon {
+    background-color: lightblue;
+    border: 1px solid rgb(130, 130, 130);
+}
+
+.detail {
+    margin: 20px 0px;
+    font-size: 18px;
+    font-family: inherit;
+    color: inherit;
 }
 
 /*
