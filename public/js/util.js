@@ -2,9 +2,9 @@
  * Generic utilities.
  */
 
-const OW_ICON = "https://openweathermap.org/img/wn/"
-const PNG = "@2x.png"
-const UNITS = {metric: "°C", standard: "°F", imperial: "K"}
+const OW_ICON = 'https://openweathermap.org/img/wn/'
+const PNG = '@2x.png'
+const UNITS = { metric: '°C', standard: '°F', imperial: 'K' }
 
 /**
  * Returns a new function that runs at most once every `interval` ms.
@@ -23,10 +23,17 @@ const debounce = (cb, interval) => {
   }
 }
 
-const populate = ({ result, formatted, unit }) => {
-  let details = result.data
-  let weather = result.data.weather[0]
-  let structure = `<div>
+/**
+ * Generate HTML for a weather data object.
+ * @param {*} result
+ * @param {string} unit
+ * @return {string}
+ */
+const populate = ({ result, unit }) => {
+  const formatted = result.places[0]?.formatted || 'Earth' // default to something if none available
+  const details = result.data
+  const weather = result.data.weather[0]
+  return `<div>
     <div class="columns is-centered">      
       <h2 class="column content is-one-third is-vcentered is-large is-white" id="status">${weather.description}</h2>
       <figure class="image is-96x96">
@@ -40,25 +47,19 @@ const populate = ({ result, formatted, unit }) => {
           <div>
             <p id="location" class="detail" >Location: ${formatted}</p>
             <p id="temp" class="detail" >Temperature: ${details.temp + UNITS[unit]}</p>
-            <p id="humidity" class="detail" >Humidity: ${details.humidity + "%"}</p>
+            <p id="humidity" class="detail" >Humidity: ${details.humidity + '%'}</p>
           </div>
         </div>
         <div class="column is-half">
           <div>
             <p  id="time" class="detail"> Time: ${result.timestamp}</p>
             <p  id="feelslike" class="detail" >Feels like: ${details.feels_like + UNITS[unit]}</p>
-            <p  id="clouds" class="detail"> Clouds: ${details.clouds + "%"}</p>
+            <p  id="clouds" class="detail"> Clouds: ${details.clouds + '%'}</p>
           </div>
          </div>
       </div>
     </div>
   </div>`
-  
-  return structure
-
-  /*
-  resWeather.innerText = weather.description
-  resIcon.innerText = "he" */
 }
 
 export {

@@ -87,12 +87,12 @@ const getPartialWeatherData = (complete, time) => {
   const {
     dt, temp, feels_like, pressure, humidity, dew_point, uvi,
     clouds, visibility, wind_speed, wind_deg, weather
-  } = time > 0 ? hourly[time-1] : current
+  } = time > 0 ? hourly[time - 1] : current
 
   // create timestamp
   const date = new Date(dt * 1000 + timezone_offset * 1000)
-  let options = { weekday: 'long', month: 'long', day: 'numeric' };
-  let timestamp = date.toLocaleString('en-GB', options) + ", " + date.toLocaleTimeString('en-GB')
+  const options = { weekday: 'long', month: 'long', day: 'numeric' }
+  const timestamp = date.toLocaleString('en-GB', options) + ', ' + date.toLocaleTimeString('en-GB')
 
   // get sunset/sunrise info
   const { sunrise, sunset } = current
@@ -114,32 +114,37 @@ const getPartialWeatherData = (complete, time) => {
  * Looks up the current or forecasted weather on the OpenWeather API for a given
  * position. If the given time {time} is higher than zero then the forecasted
  * weather is returned, else the current weather is given.
- * For example response data see {@link getPartialWeatherData}.
+ * The response data is the same as for {@link getPartialWeatherData}, but includes
+ * a field (in the root object) "places" containing zero or more places (structure
+ * same as in {@link geocodeReverse} response).
  * @example
  * // returns a promise representing the API response
  * currentWeather({ lat: 59.3326, lon: 18.0649, time: 0 })
  * @param {number|string} lat
  * @param {number|string} lon
  * @param {number|string} time amount hours to forecast
- * @param {number|string} unit temperature unit
+ * @param {number|string} units temperature unit
  * @return {Promise<*>} the current or forecasted weather
  */
 const currentWeather = async (lat, lon, time, units) => {
-  let exclude="minutely,alerts,daily"
+  const exclude = 'minutely,alerts,daily'
 
   // fetch
   // Use mocked API response to avoid going over usage quota, replace the URL in the request with the following
-  //const url = `${window.location.href}/js/onecallMockResponse.json`
+  // const url = `${window.location.href}/js/onecallMockResponse.json`
   const weather = await get(`${OW_API_URL}/data/2.5/onecall`, {
     appid: OW_API_KEY,
     lat,
     lon,
-    exclude: exclude,
-    units: units,
+    exclude,
+    units
   }) // TODO: error handling?
 
-  // extract and return relevant weather data only
-  return getPartialWeatherData(weather, time)
+  // get place(s) (best guess(es))
+  const places = await geocodeReverse(lat, lon)
+
+  // extract and return relevant fields only, integrate places
+  return { places, ...getPartialWeatherData(weather, time) }
 }
 
 /**
@@ -217,10 +222,11 @@ const geocodeReverse = (lat, lon) => {
   return get(`${GA_API_URL}/v1/geocode/reverse`, {
     apiKey: GA_API_KEY,
     format: 'json',
-    lat, lon
+    lat,
+    lon
   }).then(({ results }) => results)
 }
 
 export {
-  currentWeather, geocodeAutocomplete, geocodeReverse
+  currentWeather, geocodeAutocomplete
 }

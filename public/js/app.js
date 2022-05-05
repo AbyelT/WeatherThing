@@ -2,7 +2,7 @@
  * Main app logic.
  */
 
-import { currentWeather, geocodeAutocomplete, geocodeReverse } from './api.js'
+import { currentWeather, geocodeAutocomplete } from './api.js'
 import { debounce, populate } from './util.js'
 
 /**
@@ -12,6 +12,7 @@ import { debounce, populate } from './util.js'
 const updateWeather = async () => {
   document.querySelector('.suggestions ul')
     .classList.remove('has-suggestions') // just to be sure
+
   const lat = document.getElementById('lat').value
   const lon = document.getElementById('lon').value
   const time = document.getElementById('time').value
@@ -20,15 +21,10 @@ const updateWeather = async () => {
 
   // find weather for the current (or selected) position
   const result = await currentWeather(lat, lon, time, unit)
-  // find a place for the current (or selected) position
-  const places = await geocodeReverse(lat, lon)
 
-  const formatted = places[0]?.formatted || 'Earth' // default to something if none available
-
-  //a function for taking the data, creating all html elements
-  //and populating them with data
-  const structure = populate({ result, formatted, unit })
-  res.innerHTML = structure
+  // a function for taking the data, creating all html elements
+  // and populating them with data
+  res.innerHTML = populate({ result, unit })
 }
 
 /**
@@ -54,7 +50,7 @@ document.body.onload = async () => {
     }
     suggestions.innerHTML = ''
     if (results.length > 0) {
-      results.map(({ formatted, lat, lon }) => {
+      results.forEach(({ formatted, lat, lon }) => {
         suggestions.innerHTML += `<li data-lat="${lat}" data-lon="${lon}">${formatted}</li>`
       })
       suggestions.classList.add('has-suggestions')
@@ -65,7 +61,7 @@ document.body.onload = async () => {
 
   // add input change event listener
   input.addEventListener('keyup', debounce(search, 250))
-  units.addEventListener('change', debounce(search, 250))
+  units.addEventListener('change', updateWeather)
 
   // add suggestion selection event listener
   suggestions.addEventListener('click', (ev) => {
