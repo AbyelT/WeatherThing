@@ -4,7 +4,7 @@
 
 const OW_ICON = 'https://openweathermap.org/img/wn/'
 const PNG = '@2x.png'
-const UNITS = { metric: '°C', standard: '°F', imperial: 'K' }
+const UNITS = { metric: '°C', standard: '°F', imperial: ' K' }
 
 /**
  * Returns a new function that runs at most once every `interval` ms.

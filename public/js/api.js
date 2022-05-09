@@ -138,7 +138,7 @@ const currentWeather = async (lat, lon, time, units) => {
     lon,
     exclude,
     units
-  }) // TODO: error handling?
+  }) // TODO: error handling
 
   // get place(s) (best guess(es))
   const places = await geocodeReverse(lat, lon)
