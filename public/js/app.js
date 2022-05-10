@@ -91,7 +91,6 @@ document.body.onload = async () => {
       })
     })
   } else {
-    // TODO: maybe should be hidden if not available
     document.getElementById('gps').disabled = true
   }
 

@@ -41,7 +41,6 @@ body {
 /* spacing for all elements in form */
 #form > * {
     margin: 0px 10px;
-    height: 28px;
 }
 
 /* the gps button */
@@ -125,7 +124,39 @@ p {
 .detail {
     margin: 20px 0px;
     font-size: 18px;
-    font-family: inherit;
-    color: inherit;
+    
+}
+
+@media only screen and (max-width: 768px) {
+    
+    #inputdiv {
+        width: 180px;
+    }
+
+    .image {
+        margin: auto;
+    }
+
+    .detail {
+        text-align: center;
+    }
+
+    .column {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    #form {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2px 0px;
+    }
+
+    #status {
+        padding: 10px;
+    }
+
 }
 
